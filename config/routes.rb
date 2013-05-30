@@ -1,7 +1,14 @@
 Treebook::Application.routes.draw do
   devise_for :users
 
+  devise_scope :user do #slightly less priority so second
+    get 'register', to: 'devise/registrations#new', as: :register # get requese to register, passes options with controller with action (creating new registration), then as: to make a named helper
+    get 'login', to: 'devise/sessions#new', as: :login
+    get 'logout', to: 'devise/sessions#destroy', as: :logout
+  end
+
   resources :statuses
+    get 'feed', to: 'statuses#index', as: :feed
   root to: 'statuses#index'
 
   # The priority is based upon order of creation:
