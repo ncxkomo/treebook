@@ -3,3 +3,9 @@ rydawg: # CANNOT USE TABS IN YAML
   last_name: "dawg"
   profile_name: "rydawg"
   email: "rydawg@rd.com"
+
+jimbo: # CANNOT USE TABS IN YAML
+  first_name: "jim"
+  last_name: "bo"
+  profile_name: "jimbo"
+  email: "jimbo@jb.com"
