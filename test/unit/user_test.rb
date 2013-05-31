@@ -29,13 +29,23 @@ class UserTest < ActiveSupport::TestCase # IN THE TESTS, WE TRY TO SAVE INCORREC
 	end
 
 	test "a user should have a profile name without spaces" do 
-		user = User.new
+		user = User.new(first_name: 'ry', last_name: 'matt', email: 'ncxkomo2@gmail.com')
+		user.password = user.password_confirmation = 'afdsdsdsd'
+
 		user.profile_name = "My Profile"
 		assert !user.save # make sure that it can't be saved
 		assert !user.errors[:profile_name].empty? # make sure that there are some errors in the profile name
 		# we're doing this to make sure errors are registered. when we initially run the test without entering validations in the user profile, we see that errors were NOT registered. by entering validations, we confirm errors DO GET registered.
 		# when i first ran this, the assertion failed because no errors were in the profile name. i don't want this, i want errors to be registered. that's why we then put in the validations.
 		assert user.errors[:profile_name].include?("Must be formatted correctly.") # checks errors array with the profilename key to make sure w'ere gettting the right error
+	end
+
+	test "a user can have a properly formatted profile name" do 
+		user = User.new(first_name: 'ry', last_name: 'matt', email: 'ncxkomo2@gmail.com')
+		user.password = user.password_confirmation = 'afdsdsdsd'
+
+		user.profile_name = 'mypropername_1'
+		assert user.valid?
 	end
 
 end

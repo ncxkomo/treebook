@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   validates :profile_name, presence: true,
                           uniqueness: true, # see if another user exists with same profile name in our db when we save this user
                           format: {
-                            with: /a-zA-Z0-9_-/, #regular expression that makes sure it can include lower, upper case, 0-9, _ and -
+                            with: /^[a-zA-Z0-9_-]+$/, #regular expression that makes sure it can include lower, upper case, 0-9, _ and -
                             message: "Must be formatted correctly." # must spit back same error as in test
                           }
 
