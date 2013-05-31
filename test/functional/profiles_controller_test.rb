@@ -15,8 +15,8 @@ class ProfilesControllerTest < ActionController::TestCase
 
 test "that variables are assigned on successful profile viewing" do
     get :show, id: users(:rydawg).profile_name 
-    assert assigns(:user)
-    assert_not_empty assigns(:statuses)
+    assert assigns(:user) # checks that the user controller instance variable exists
+    assert_not_empty assigns(:statuses) # checks that the user controller instance variable is not empty
   end
 
 test "only shows the correct user's statuses" do 
