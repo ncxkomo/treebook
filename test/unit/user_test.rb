@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase # IN THE TESTS, WE TRY TO SAVE INCORRECT DATA TO THE DATABASE
+	should have_many(:user_friendships)
+	should have_many(:friends)
 
 	test "a user should enter a first name" do 
 		user = User.new # creates a new user variable, user is a new instance of the User class 
@@ -31,8 +33,8 @@ class UserTest < ActiveSupport::TestCase # IN THE TESTS, WE TRY TO SAVE INCORREC
 	test "a user should have a profile name without spaces" do 
 		user = User.new(first_name: 'ry', last_name: 'matt', email: 'ncxkomo2@gmail.com')
 		user.password = user.password_confirmation = 'afdsdsdsd'
-
 		user.profile_name = "My Profile"
+
 		assert !user.save # make sure that it can't be saved
 		assert !user.errors[:profile_name].empty? # make sure that there are some errors in the profile name
 		# we're doing this to make sure errors are registered. when we initially run the test without entering validations in the user profile, we see that errors were NOT registered. by entering validations, we confirm errors DO GET registered.
@@ -46,6 +48,18 @@ class UserTest < ActiveSupport::TestCase # IN THE TESTS, WE TRY TO SAVE INCORREC
 
 		user.profile_name = 'mypropername_1'
 		assert user.valid?
+	end
+
+	test "that no error is raised when trying to acces a friend list" do
+		assert_nothing_raised do
+			users(:rydawg).friends
+		end
+	end
+
+	test "that creating friendships on a user works" do
+		users(:rydawg).friends << users(:mikey)
+		users(:rydawg).friends.reload
+		assert users(:rydawg).friends.include?(users(:mikey))
 	end
 
 end
