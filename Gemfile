@@ -8,6 +8,10 @@ gem 'rails', '3.2.12'
 gem 'devise'
 gem 'simple_form'
 
+group :test do
+	gem 'shoulda'
+end
+
 group :development, :test do #only works in dev and test, and heroku won't see it
 	gem 'sqlite3'
 end
