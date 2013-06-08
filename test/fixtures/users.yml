@@ -3,6 +3,7 @@ rydawg: # CANNOT USE TABS IN YAML
   last_name: "dawg"
   profile_name: "rydawg"
   email: "rydawg@rd.com"
+  encrypted_password: "$2a$10$Fh/Hm8RxDsuPTeBUr6864.GARlcmt7zF2WspaXGr3BIv2C27N.osq"
 
 jimbo: # CANNOT USE TABS IN YAML
   first_name: "jim"

@@ -1,19 +1,31 @@
 Treebook::Application.routes.draw do
   get "profiles/show"
 
-  devise_for :users
+  as :user do #slightly less priority so second
+    get '/register', to: 'devise/registrations#new', as: :register # get requese to register, passes options with controller with action (creating new registration), then as: to make a named helper
+    get '/login', to: 'devise/sessions#new', as: :login
+    get '/logout', to: 'devise/sessions#destroy', as: :logout
+  end
 
-  devise_scope :user do #slightly less priority so second
-    get 'register', to: 'devise/registrations#new', as: :register # get requese to register, passes options with controller with action (creating new registration), then as: to make a named helper
-    get 'login', to: 'devise/sessions#new', as: :login
-    get 'logout', to: 'devise/sessions#destroy', as: :logout
+  devise_for :users, skip: [:sessions]
+
+  as :user do
+    get "/login" => 'devise/sessions#new', as: :new_user_session
+    post "/login" => 'devise/sessions#create', as: :user_session
+    delete "/logout" => 'devise/sessions#destroy', as: :destroy_user_session
+  end
+
+  resources :user_friendships do
+    member do # instance, rather than applying to all users
+      put :accept # updating the user friendship resource, so not doing get or new
+    end
   end
 
   resources :statuses
     get 'feed', to: 'statuses#index', as: :feed
   root to: 'statuses#index'
 
-  get '/:id', to: 'profiles#show'
+  get '/:id', to: 'profiles#show', as: 'profile'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
